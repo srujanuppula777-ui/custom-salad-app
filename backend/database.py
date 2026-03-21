@@ -6,18 +6,14 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./custom_salad.db")
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:Srujan%40331@localhost:5432/custom_salad")
 
 # Fix for SQLAlchemy 1.4+ (Supabase provides postgres://, SQLAlchemy needs postgresql://)
 if DATABASE_URL.startswith("postgres://"):
     DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
 
-# Only add check_same_thread for SQLite
-connect_args = {"check_same_thread": False} if DATABASE_URL.startswith("sqlite") else {}
-
-engine = create_engine(
-    DATABASE_URL, connect_args=connect_args
-)
+# Initialize engine for PostgreSQL
+engine = create_engine(DATABASE_URL)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
