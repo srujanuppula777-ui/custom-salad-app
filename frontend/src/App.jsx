@@ -36,6 +36,7 @@ function App() {
             <Route path="/customers/new" element={<CreateCustomer />} />
             <Route path="/customers/:id" element={<CustomerDetail />} />
             <Route path="/customers/:id/subscribe/:service" element={<Subscribe />} />
+            <Route path="/customers/:id/edit-subscription/:subId" element={<Subscribe />} />
           </Routes>
         </main>
 

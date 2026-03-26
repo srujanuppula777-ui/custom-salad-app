@@ -198,13 +198,23 @@ export default function CustomerDetail() {
                                             {format(new Date(sub.start_date + 'T00:00:00'), 'MMM d')} – {format(new Date(sub.end_date + 'T00:00:00'), 'MMM d, yyyy')}
                                         </span>
                                         <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginLeft: 8 }}>
-                                            ({sub.delivery_schedule ? `${Object.keys(sub.delivery_schedule).length} custom days` : sub.day_type})
+                                            ({(() => {
+                                                if (!sub.delivery_schedule) return sub.day_type;
+                                                const days = Object.keys(sub.delivery_schedule);
+                                                const isStandardWeekdays = days.length === 5 && ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'].every(d => days.includes(d));
+                                                return isStandardWeekdays ? 'weekdays' : `${days.length} custom days`;
+                                            })()})
                                         </span>
                                     </div>
-                                    <button className="btn btn-danger" style={{ padding: '0.3rem 0.7rem', fontSize: '0.78rem' }}
-                                        onClick={() => deleteSub(sub.id)}>
-                                        <Trash2 size={12} /> Remove
-                                    </button>
+                                    <div style={{ display: 'flex', gap: '0.4rem' }}>
+                                        <Link to={`/customers/${id}/edit-subscription/${sub.id}`} className="btn btn-outline" style={{ padding: '0.3rem 0.7rem', fontSize: '0.78rem' }}>
+                                            <Edit3 size={12} /> Edit
+                                        </Link>
+                                        <button className="btn btn-danger" style={{ padding: '0.3rem 0.7rem', fontSize: '0.78rem' }}
+                                            onClick={() => deleteSub(sub.id)}>
+                                            <Trash2 size={12} /> Remove
+                                        </button>
+                                    </div>
                                 </div>
                             ))}
                         </div>

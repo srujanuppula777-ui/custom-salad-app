@@ -45,6 +45,15 @@ class SubscriptionCreate(SubscriptionBase):
     customer_id: int
 
 
+class SubscriptionUpdate(BaseModel):
+    service_type: Optional[str] = None
+    start_date: Optional[date] = None
+    end_date: Optional[date] = None
+    day_type: Optional[str] = None
+    delivery_schedule: Optional[dict] = None
+    pause_dates: Optional[List[str]] = None
+
+
 class SubscriptionOut(SubscriptionBase):
     id: int
     customer_id: int
